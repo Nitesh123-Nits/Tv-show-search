@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<style>
+		*{
+			padding:0;
+			margin:0;
+			box-sizing: border-box;
+			font-family: sans-serif;
+		}
+		body{
+			background:#171616;
+			margin:3rem;
+		}
+		*::placeholder{
+			color:red;
+			font-size: 1rem;
+		}
+		h1{
+			text-align: center;
+			font-size: 3rem;
+			color:#ffe;
+		}
+		button{
+			border:0px;
+			display: block;
+			margin:2rem auto;
+			width: 23rem;
+			height: 2.5rem;
+			background: #234;
+			color:#ffe;
+			font-size: 1.5rem;
+
+
+		}
+		input{
+			border:2px solid #222222;
+			display: block;
+			margin:2rem auto;
+			width: 23rem;
+			height: 2rem;
+			padding: .5rem 1rem .5rem 1rem;
+			border-radius: .3rem;
+
+		}
+		img{
+			padding: 1rem;
+		}
+	</style>
+</head>
+<body>
+
+    <h1>Tv show Search!</h1>
+
+		<form id="searchForm" >
+			<input type="text" placeholder="Search show" name="query">
+			<button >Search</button>
+		</form>
+		<di class="container"></di>
+
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.js" integrity="sha512-otOZr2EcknK9a5aa3BbMR9XOjYKtxxscwyRHN6zmdXuRfJ5uApkHB7cz1laWk2g8RKLzV9qv/fl3RPwfCuoxHQ==" crossorigin="anonymous"></script>
+	<script>
+		const frm=document.querySelector("#searchForm");
+		const container=document.querySelector(".container");
+  
+         frm.addEventListener("submit",async (e)=>{
+         e.preventDefault();
+         const search=frm.elements.query.value;
+         const config={ params: {q: search}}
+         const res=await axios.get(`http://api.tvmaze.com/search/shows`,config);
+         makeshow(res.data);
+         frm.elements.query.value='';
+        })
+        const makeshow=(shows)=>{
+        	for(let result of shows){
+        		if(result.show.image){
+         const img=document.createElement('IMG');
+         img.src=result.show.image.medium;
+         container.append(img);
+        		}
+         
+        	}
+
+        }
+
+
+	</script>
+</body>
+</html>
